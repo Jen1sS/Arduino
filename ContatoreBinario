@@ -1,0 +1,68 @@
+short pos1=0;
+short pos2=0;
+short pos3=0;
+short rip2=0;
+short rip3=0;
+short maxi;
+short start;
+String linea;
+
+void setup(){
+  Serial.begin(9600);
+  pinMode(13,OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(8,OUTPUT);
+  pinMode(7,OUTPUT);
+}
+
+void loop(){
+  Serial.print("Dimmi il numero");
+  Serial.available();
+  linea=Serial.readString();
+  maxi=linea.toInt();
+
+  for(int i=0;i<3;i++){
+    if(i==0){
+      start=maxi;
+      maxi=7;
+    } else {
+      maxi=start;
+      start=0;
+    }
+    
+  for(int i=start;i<maxi;i++){
+    digitalWrite(7,LOW);      
+    if(pos1!=1){
+      pos1++;
+      digitalWrite(8,LOW);
+    } else {
+      pos1=0;
+      digitalWrite(8,HIGH);
+    }    
+    if(pos2>=2 & rip2!=2){
+        digitalWrite(12,HIGH);
+        rip2++;
+    } else {
+      if(rip2==2){
+        pos2=0;
+      }
+      pos2++;
+      rip2=0;
+        
+      digitalWrite(12,LOW);
+    }
+    if(pos3>3){
+      digitalWrite(13,HIGH);
+    } else {
+      pos3++;
+      digitalWrite(13,LOW);
+    }
+    delay(2000);
+    digitalWrite(8,LOW);
+    digitalWrite(12,LOW);
+    digitalWrite(13,LOW);
+    digitalWrite(7,HIGH);
+    delay(1000);
+  }
+  }
+}
